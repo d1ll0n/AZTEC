@@ -192,8 +192,7 @@ contract('ZkAssetMintable', (accounts) => {
                 senderAddress: accounts[0],
             });
 
-            await truffleAssert.reverts(zkAssetMintable.confidentialMint(MINT_PROOF, proofs[0].proofData, { from: accounts[1] }),
-                'only the owner can call the confidentialMint() method');
+            await truffleAssert.reverts(zkAssetMintable.confidentialMint(MINT_PROOF, proofs[0].proofData, { from: accounts[1] }));
         });
 
         it('validate failure if ace.mint throws', async () => {

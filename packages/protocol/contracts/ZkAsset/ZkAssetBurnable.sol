@@ -26,11 +26,9 @@ contract ZkAssetBurnable is ZkAssetOwnable {
         _canAdjustSupply,
         _canConvert
     ){
-        owner = msg.sender;
     }
 
-    function confidentialBurn(uint24 _proof, bytes calldata _proofData) external {
-        require(msg.sender == owner, "only the owner can call the confidentialBurn() method");
+    function confidentialBurn(uint24 _proof, bytes calldata _proofData) external onlyOwner {
         require(_proofData.length != 0, "proof invalid");
 
         (bytes memory _proofOutputs) = ace.burn(_proof, _proofData, address(this));

@@ -249,10 +249,7 @@ contract('ZkAssetOwnable', (accounts) => {
     describe('failure states', async () => {
         it('should fail to set a new proof bit filter if not owner', async () => {
             const opts = { from: accounts[1] };
-            await truffleAssert.reverts(
-                zkAssetOwnable.setProofs(epoch, filter, opts),
-                'only the owner can set the epoch proofs'
-            );
+            await truffleAssert.reverts(zkAssetOwnable.setProofs(epoch, filter, opts));
         });
 
         it('should fail to approve a contract to update a note registry if note doesn\'t exist', async () => {

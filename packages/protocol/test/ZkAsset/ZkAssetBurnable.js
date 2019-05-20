@@ -306,8 +306,7 @@ contract('ZkAssetBurnable', (accounts) => {
 
             const { receipt: joinSplitReceipt } = await zkAssetBurnable.confidentialTransfer(proofs[0].proofData);
             expect(joinSplitReceipt.status).to.equal(true);
-            await truffleAssert.reverts(zkAssetBurnable.confidentialBurn(BURN_PROOF, proofs[1].proofData, { from: accounts[1] }),
-                'only the owner can call the confidentialBurn() method');
+            await truffleAssert.reverts(zkAssetBurnable.confidentialBurn(BURN_PROOF, proofs[1].proofData, { from: accounts[1] }));
         });
 
         it('validate failure if ace.burn throws', async () => {
