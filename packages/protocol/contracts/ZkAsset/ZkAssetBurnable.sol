@@ -8,24 +8,21 @@ import "./ZkAsset.sol";
 import "../ACE/ACE.sol";
 import "../libs/LibEIP712.sol";
 import "../libs/ProofUtils.sol";
-import "./ZkAssetOwnable.sol";
+import "./ZkAssetOwnableBase.sol";
 
-contract ZkAssetBurnable is ZkAssetOwnable {
+contract ZkAssetBurnable is ZkAssetOwnableBase {
     event UpdateTotalBurned(bytes32 noteHash, bytes noteData);
 
     constructor(
         address _aceAddress,
         address _linkedTokenAddress,
-        uint256 _scalingFactor,
-        bool _canAdjustSupply,
-        bool _canConvert
-    ) public ZkAssetOwnable(
+        uint256 _scalingFactor
+    ) public ZkAssetOwnableBase(
         _aceAddress,
         _linkedTokenAddress,
         _scalingFactor,
-        _canAdjustSupply,
-        _canConvert
-    ){
+        true // canAdjustSupply
+    ) {
     }
 
     function confidentialBurn(uint24 _proof, bytes calldata _proofData) external onlyOwner {

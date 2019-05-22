@@ -26,9 +26,9 @@ module.exports = (deployer, network) => {
                 ZkAsset,
                 aceAddress,
                 erc20Address,
-                ERC20_SCALING_FACTOR,
-                canAdjustSupply,
-                canConvert
+                ERC20_SCALING_FACTOR
+                // canAdjustSupply,
+                // canConvert
             );
         });
     });

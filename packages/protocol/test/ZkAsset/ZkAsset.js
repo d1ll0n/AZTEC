@@ -32,8 +32,6 @@ contract('ZkAsset', (accounts) => {
         let ace;
         let aztecAccounts = [];
         let aztecJoinSplit;
-        const canAdjustSupply = false;
-        const canConvert = true;
         let erc20;
         let notes = [];
         const scalingFactor = new BN(10);
@@ -55,9 +53,7 @@ contract('ZkAsset', (accounts) => {
             zkAsset = await ZkAsset.new(
                 ace.address,
                 erc20.address,
-                scalingFactor,
-                canAdjustSupply,
-                canConvert
+                scalingFactor
             );
 
             await Promise.all(accounts.map((account) => {
@@ -83,13 +79,6 @@ contract('ZkAsset', (accounts) => {
                 const domainHash = computeDomainHash(zkAsset.address);
                 const result = await zkAsset.EIP712_DOMAIN_HASH();
                 expect(result).to.equal(domainHash);
-            });
-
-            it('should correctly set the flags', async () => {
-                const result = await zkAsset.flags();
-                expect(result.active).to.equal(true);
-                expect(result.canAdjustSupply).to.equal(false);
-                expect(result.canConvert).to.equal(true);
             });
 
             it('should correctly set the linked token', async () => {
