@@ -5,7 +5,7 @@ const truffleAssert = require('truffle-assertions');
 
 // ### Internal Dependencies
 // eslint-disable-next-line object-curly-newline
-const { note, proof, secp256k1 } = require('aztec.js');
+const { note, proof, secp256k1, sign, abiEncoder } = require('aztec.js');
 const { constants, proofs: { MINT_PROOF, JOIN_SPLIT_PROOF } } = require('@aztec/dev-utils');
 
 // ### Artifacts
@@ -15,12 +15,27 @@ const AdjustSupply = artifacts.require('./contracts/ACE/validators/AdjustSupply'
 const AdjustSupplyInterface = artifacts.require('./contracts/ACE/validators/AdjustSupplyInterface');
 const JoinSplit = artifacts.require('./contracts/ACE/validators/JoinSplit');
 const JoinSplitInterface = artifacts.require('./contracts/ACE/validators/JoinSplit');
+const ZkAssetMintableTest = artifacts.require('./contracts/ZkAsset/ZkAssetMintableTest');
+
 
 const ZkAssetMintable = artifacts.require('./contracts/ZkAsset/ZkAssetMintable');
 
 
 AdjustSupply.abi = AdjustSupplyInterface.abi;
 JoinSplit.abi = JoinSplitInterface.abi;
+
+const signNote = (validatorAddress, noteHash, spender, privateKey) => {
+    const domain = sign.generateZKAssetDomainParams(validatorAddress);
+    const schema = constants.eip712.NOTE_SIGNATURE;
+    const status = true;
+    const message = {
+        noteHash,
+        spender,
+        status,
+    };
+    return sign.signStructuredData(domain, schema, message, privateKey);
+};  
+
 
 contract('ZkAssetMintable', (accounts) => {
     describe('success states', () => {
@@ -136,6 +151,95 @@ contract('ZkAssetMintable', (accounts) => {
             expect(transferReceipt.status).to.equal(true);
             expect(initialBalance).to.equal(0);
             expect(finalBalance).to.equal(kPublic * scalingFactor);
+        });
+
+
+        it.only('should perform mint using confidentialTransferFrom()', async () => {
+
+            const [owner, recipient1, recipient2] = aztecAccounts;
+            const inputNoteOwners = [recipient1, recipient2];
+
+            // Create dummy ZkAsset, through which confidentialTransferFrom() will be called
+            const zkAssetMintableTest = await ZkAssetMintableTest.new();
+            await zkAssetMintableTest.setZkAssetMintableAddress(zkAssetMintable.address);
+            
+            const erc20TotalSupply = (await erc20.totalSupply()).toNumber();
+            const initialAceBalance = (await erc20.balanceOf(ace.address)).toNumber();
+            const initialRecipientBalance = (await erc20.balanceOf(accounts[1])).toNumber();
+            expect(initialAceBalance).to.equal(0);
+            expect(erc20TotalSupply).to.equal(0);
+            expect(initialRecipientBalance).to.equal(0);
+
+
+            const newTotalMinted = note
+                .create(owner.publicKey, 50);
+            const oldTotalMinted = note
+                .createZeroValueNote();
+
+            const mintedNotes = [
+                note.create(recipient1.publicKey, 20),
+                note.create(recipient2.publicKey, 30),
+            ];
+
+            const mintProof = proof.mint
+                .encodeMintTransaction({
+                    newTotalMinted, // 50
+                    oldTotalMinted, // 0
+                    adjustedNotes: mintedNotes, // 30 + 20
+                    senderAddress: zkAssetMintable.address,
+                });
+
+            const { receipt: mintReceipt } = await zkAssetMintable
+                .confidentialMint(MINT_PROOF, mintProof.proofData);
+
+            expect(mintReceipt.status).to.equal(true);
+            const erc20TotalSupplyAfterMint = (await erc20.totalSupply()).toNumber();
+            expect(erc20TotalSupplyAfterMint).to.equal(0);            
+            
+            // call confidentialApprove()
+            const indexes = [0, 1];
+            await Promise.all(indexes.map((i) => {
+                const { signature } = signNote(
+                    zkAssetMintable.address,
+                    mintedNotes[i].noteHash,
+                    zkAssetMintableTest.address,
+                    inputNoteOwners[i].privateKey
+                );
+                const concatenatedSignature = signature[0] + signature[1].slice(2) + signature[2].slice(2);
+                // eslint-disable-next-line no-await-in-loop
+                return zkAssetMintable.confidentialApprove(
+                    mintedNotes[i].noteHash,
+                    zkAssetMintableTest.address,
+                    true,
+                    concatenatedSignature
+                );
+            }));
+
+            // create a proof, that withdraws more tokens than the ACE contract holds
+            const withdrawalProof = proof.joinSplit
+                .encodeJoinSplitTransaction({
+                    inputNotes: mintedNotes, // 20 + 30
+                    outputNotes: [],
+                    senderAddress: accounts[0],
+                    inputNoteOwners: [recipient1, recipient2],
+                    publicOwner: recipient1.address,
+                    kPublic, // 50
+                    validatorAddress: aztecJoinSplit.address,
+                });
+
+            await zkAssetMintableTest.callValidateProof(JOIN_SPLIT_PROOF, withdrawalProof.proofData);
+            const withdrawalProofOutput = abiEncoder.outputCoder.getProofOutput(withdrawalProof.expectedOutput, 0);
+            const formattedProofOutput = `0x${withdrawalProofOutput.slice(0x40)}`;
+            const { receipt: transferReceipt } = await zkAssetMintableTest.callConfidentialTransferFrom(JOIN_SPLIT_PROOF, formattedProofOutput);
+            expect(transferReceipt.status).to.equal(true);
+
+            const erc20TotalSupplyAfterWithdrawal = (await erc20.totalSupply()).toNumber();
+            const finalRecipientBalance = (await erc20.balanceOf(recipient1.address)).toNumber();
+            const finalAceBalance = (await erc20.balanceOf(ace.address)).toNumber();
+            expect(erc20TotalSupplyAfterWithdrawal).to.equal(kPublic * scalingFactor);
+            expect(finalRecipientBalance).to.equal(kPublic * scalingFactor);
+            expect(finalAceBalance).to.equal(0);
+
         });
     });
 
