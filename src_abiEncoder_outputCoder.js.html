@@ -1,0 +1,485 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+      src/abiEncoder/outputCoder.js - Documentation
+  </title>
+
+  <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+  
+  <link type="text/css" rel="stylesheet" href="styles/collapse.css">
+  
+
+  
+
+  <!-- start Mixpanel -->
+  <script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+  0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+  for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+  mixpanel.init("1919205b2da72e4da3b9b6639b444d59");</script>
+  <!-- end Mixpanel -->
+</head>
+
+<body>
+  <svg style="display: none;">
+    <defs>
+      <symbol id="linkIcon" fill="#706d77" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0h24v24H0z" fill="none"/>
+          <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+  <label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+  </label>
+
+  <label for="nav-trigger" class="overlay"></label>
+
+  <div class="top-nav-wrapper">
+    <ul>
+      <li >
+        <a href="index.html">
+          
+            <svg fill="#6D6D6D" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+              <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+          
+          
+        </a>
+      </li>
+
+      
+
+    </ul>
+  </div>
+
+  <nav>
+    <h3 class="reference-title">
+      aztec.js
+    </h3>
+
+    
+
+    <h3>Classes</h3><ul><li id="Keccak-nav"><a href="Keccak.html">Keccak</a><ul class='methods'><li data-type="method" id="Keccak-append-nav"><a href="Keccak.html#append">append</a></li><li data-type="method" id="Keccak-appendBN-nav"><a href="Keccak.html#appendBN">appendBN</a></li><li data-type="method" id="Keccak-appendBN-nav"><a href="Keccak.html#appendBN">appendBN</a></li></ul></li><li id="Note-nav"><a href="Note.html">Note</a><ul class='methods'><li data-type="method" id="Note-derive-nav"><a href="Note.html#derive">derive</a></li><li data-type="method" id="Note-exportMetadata-nav"><a href="Note.html#exportMetadata">exportMetadata</a></li><li data-type="method" id="Note-exportNote-nav"><a href="Note.html#exportNote">exportNote</a></li><li data-type="method" id="Note-getPublic-nav"><a href="Note.html#getPublic">getPublic</a></li><li data-type="method" id="Note-getView-nav"><a href="Note.html#getView">getView</a></li></ul></li></ul><h3>Modules</h3><ul><li id="bilateralSwap-nav"><a href="module-bilateralSwap.html">bilateralSwap</a><ul class='methods'><li data-type="method" id="bilateralSwap-encodeBilateralSwapTransaction-nav"><a href="module-bilateralSwap.html#.encodeBilateralSwapTransaction">encodeBilateralSwapTransaction</a></li><li data-type="method" id="bilateralSwap-verifyProof-nav"><a href="module-bilateralSwap.html#.verifyProof">verifyProof</a></li><li data-type="method" id="bilateralSwap-constructBlindingFactors-nav"><a href="module-bilateralSwap.html#~constructBlindingFactors">constructBlindingFactors</a></li><li data-type="method" id="bilateralSwap-constructProof-nav"><a href="module-bilateralSwap.html#~constructProof">constructProof</a></li></ul></li><li id="bn128-nav"><a href="module-bn128.html">bn128</a><ul class='methods'><li data-type="method" id="bn128-compress-nav"><a href="module-bn128.html#~compress">compress</a></li><li data-type="method" id="bn128-decompress-nav"><a href="module-bn128.html#~decompress">decompress</a></li><li data-type="method" id="bn128-decompressHex-nav"><a href="module-bn128.html#~decompressHex">decompressHex</a></li><li data-type="method" id="bn128-randomGroupScalar-nav"><a href="module-bn128.html#~randomGroupScalar">randomGroupScalar</a></li><li data-type="method" id="bn128-randomPoint-nav"><a href="module-bn128.html#~randomPoint">randomPoint</a></li><li data-type="method" id="bn128-recoverMessage-nav"><a href="module-bn128.html#~recoverMessage">recoverMessage</a></li></ul></li><li id="burn-nav"><a href="module-burn.html">burn</a><ul class='methods'><li data-type="method" id="burn-encodeBurnTransaction-nav"><a href="module-burn.html#.encodeBurnTransaction">encodeBurnTransaction</a></li></ul></li><li id="dividendComputation-nav"><a href="module-dividendComputation.html">dividendComputation</a><ul class='methods'><li data-type="method" id="dividendComputation-encodeDividendComputationTransaction-nav"><a href="module-dividendComputation.html#.encodeDividendComputationTransaction">encodeDividendComputationTransaction</a></li><li data-type="method" id="dividendComputation-verifyProof-nav"><a href="module-dividendComputation.html#.verifyProof">verifyProof</a></li><li data-type="method" id="dividendComputation-constructBlindingFactors-nav"><a href="module-dividendComputation.html#~constructBlindingFactors">constructBlindingFactors</a></li><li data-type="method" id="dividendComputation-constructProof-nav"><a href="module-dividendComputation.html#~constructProof">constructProof</a></li></ul></li><li id="encoderFactory-nav"><a href="module-encoderFactory.html">encoderFactory</a><ul class='methods'><li data-type="method" id="encoderFactory-encode-nav"><a href="module-encoderFactory.html#~encode">encode</a></li><li data-type="method" id="encoderFactory-encodeInputOwners-nav"><a href="module-encoderFactory.html#~encodeInputOwners">encodeInputOwners</a></li><li data-type="method" id="encoderFactory-encodeInputSignatures-nav"><a href="module-encoderFactory.html#~encodeInputSignatures">encodeInputSignatures</a></li><li data-type="method" id="encoderFactory-encodeMetadata-nav"><a href="module-encoderFactory.html#~encodeMetadata">encodeMetadata</a></li><li data-type="method" id="encoderFactory-encodeNote-nav"><a href="module-encoderFactory.html#~encodeNote">encodeNote</a></li><li data-type="method" id="encoderFactory-encodeOutputOwners-nav"><a href="module-encoderFactory.html#~encodeOutputOwners">encodeOutputOwners</a></li><li data-type="method" id="encoderFactory-encodeProofData-nav"><a href="module-encoderFactory.html#~encodeProofData">encodeProofData</a></li></ul></li><li id="initDatabase-nav"><a href="module-initDatabase.html">initDatabase</a></li><li id="inputCoder-nav"><a href="module-inputCoder.html">inputCoder</a><ul class='methods'><li data-type="method" id="inputCoder-bilateralSwap-nav"><a href="module-inputCoder.html#~bilateralSwap">bilateralSwap</a></li><li data-type="method" id="inputCoder-burn-nav"><a href="module-inputCoder.html#~burn">burn</a></li><li data-type="method" id="inputCoder-dividendComputation-nav"><a href="module-inputCoder.html#~dividendComputation">dividendComputation</a></li><li data-type="method" id="inputCoder-joinSplit-nav"><a href="module-inputCoder.html#~joinSplit">joinSplit</a></li><li data-type="method" id="inputCoder-mint-nav"><a href="module-inputCoder.html#~mint">mint</a></li><li data-type="method" id="inputCoder-privateRange-nav"><a href="module-inputCoder.html#~privateRange">privateRange</a></li></ul></li><li id="joinSplit-nav"><a href="module-joinSplit.html">joinSplit</a><ul class='methods'><li data-type="method" id="joinSplit-constructJoinSplitModified-nav"><a href="module-joinSplit.html#.constructJoinSplitModified">constructJoinSplitModified</a></li><li data-type="method" id="joinSplit-constructProof-nav"><a href="module-joinSplit.html#.constructProof">constructProof</a></li><li data-type="method" id="joinSplit-encodeJoinSplitTransaction-nav"><a href="module-joinSplit.html#.encodeJoinSplitTransaction">encodeJoinSplitTransaction</a></li><li data-type="method" id="joinSplit-extractWitness-nav"><a href="module-joinSplit.html#.extractWitness">extractWitness</a></li><li data-type="method" id="joinSplit-generateBlindingScalars-nav"><a href="module-joinSplit.html#.generateBlindingScalars">generateBlindingScalars</a></li><li data-type="method" id="joinSplit-generateCommitmentSet-nav"><a href="module-joinSplit.html#.generateCommitmentSet">generateCommitmentSet</a></li><li data-type="method" id="joinSplit-generateFakeCommitmentSet-nav"><a href="module-joinSplit.html#.generateFakeCommitmentSet">generateFakeCommitmentSet</a></li><li data-type="method" id="joinSplit-verifyProof-nav"><a href="module-joinSplit.html#.verifyProof">verifyProof</a></li><li data-type="method" id="joinSplit-constructBlindingFactors-nav"><a href="module-joinSplit.html#~constructBlindingFactors">constructBlindingFactors</a></li></ul></li><li id="mint-nav"><a href="module-mint.html">mint</a><ul class='methods'><li data-type="method" id="mint-encodeMintTransaction-nav"><a href="module-mint.html#.encodeMintTransaction">encodeMintTransaction</a></li><li data-type="method" id="mint-verifyProof-nav"><a href="module-mint.html#.verifyProof">verifyProof</a></li><li data-type="method" id="mint-constructProof-nav"><a href="module-mint.html#~constructProof">constructProof</a></li></ul></li><li id="note-nav"><a href="module-note.html">note</a><ul class='methods'><li data-type="method" id="note-createZeroValueNote-nav"><a href="module-note.html#~createZeroValueNote">createZeroValueNote</a></li><li data-type="method" id="note-derive-nav"><a href="module-note.html#~derive">derive</a></li><li data-type="method" id="note-fromEventLog-nav"><a href="module-note.html#~fromEventLog">fromEventLog</a></li><li data-type="method" id="note-fromPublicKey-nav"><a href="module-note.html#~fromPublicKey">fromPublicKey</a></li><li data-type="method" id="note-fromValue-nav"><a href="module-note.html#~fromValue">fromValue</a></li><li data-type="method" id="note-fromValue-nav"><a href="module-note.html#~fromValue">fromValue</a></li><li data-type="method" id="note-fromViewKey-nav"><a href="module-note.html#~fromViewKey">fromViewKey</a></li></ul></li><li id="noteCoder-nav"><a href="module-noteCoder.html">noteCoder</a><ul class='methods'><li data-type="method" id="noteCoder-decodeNoteFromEventLog-nav"><a href="module-noteCoder.html#~decodeNoteFromEventLog">decodeNoteFromEventLog</a></li><li data-type="method" id="noteCoder-encodeNotePublicKey-nav"><a href="module-noteCoder.html#~encodeNotePublicKey">encodeNotePublicKey</a></li></ul></li><li id="outputCoder-nav"><a href="module-outputCoder.html">outputCoder</a><ul class='methods'><li data-type="method" id="outputCoder-decodeNote-nav"><a href="module-outputCoder.html#~decodeNote">decodeNote</a></li><li data-type="method" id="outputCoder-decodeNotes-nav"><a href="module-outputCoder.html#~decodeNotes">decodeNotes</a></li><li data-type="method" id="outputCoder-decodeProofOutput-nav"><a href="module-outputCoder.html#~decodeProofOutput">decodeProofOutput</a></li><li data-type="method" id="outputCoder-decodeProofOutputs-nav"><a href="module-outputCoder.html#~decodeProofOutputs">decodeProofOutputs</a></li><li data-type="method" id="outputCoder-encodeInputNote-nav"><a href="module-outputCoder.html#~encodeInputNote">encodeInputNote</a></li><li data-type="method" id="outputCoder-encodeNotes-nav"><a href="module-outputCoder.html#~encodeNotes">encodeNotes</a></li><li data-type="method" id="outputCoder-encodeOutputNote-nav"><a href="module-outputCoder.html#~encodeOutputNote">encodeOutputNote</a></li><li data-type="method" id="outputCoder-encodeProofOutput-nav"><a href="module-outputCoder.html#~encodeProofOutput">encodeProofOutput</a></li><li data-type="method" id="outputCoder-encodeProofOutputs-nav"><a href="module-outputCoder.html#~encodeProofOutputs">encodeProofOutputs</a></li><li data-type="method" id="outputCoder-getInputNotes-nav"><a href="module-outputCoder.html#~getInputNotes">getInputNotes</a></li><li data-type="method" id="outputCoder-getMetadata-nav"><a href="module-outputCoder.html#~getMetadata">getMetadata</a></li><li data-type="method" id="outputCoder-getNote-nav"><a href="module-outputCoder.html#~getNote">getNote</a></li><li data-type="method" id="outputCoder-getOutputNotes-nav"><a href="module-outputCoder.html#~getOutputNotes">getOutputNotes</a></li><li data-type="method" id="outputCoder-getProofOutput-nav"><a href="module-outputCoder.html#~getProofOutput">getProofOutput</a></li><li data-type="method" id="outputCoder-hashProofOutput-nav"><a href="module-outputCoder.html#~hashProofOutput">hashProofOutput</a></li></ul></li><li id="privateRange-nav"><a href="module-privateRange.html">privateRange</a><ul class='methods'><li data-type="method" id="privateRange-constructUtilityNote-nav"><a href="module-privateRange.html#.constructUtilityNote">constructUtilityNote</a></li><li data-type="method" id="privateRange-encodePrivateRangeTransaction-nav"><a href="module-privateRange.html#.encodePrivateRangeTransaction">encodePrivateRangeTransaction</a></li><li data-type="method" id="privateRange-verifyProof-nav"><a href="module-privateRange.html#.verifyProof">verifyProof</a></li><li data-type="method" id="privateRange-constructBlindingFactors-nav"><a href="module-privateRange.html#~constructBlindingFactors">constructBlindingFactors</a></li><li data-type="method" id="privateRange-constructProof-nav"><a href="module-privateRange.html#~constructProof">constructProof</a></li></ul></li><li id="proofUtils-nav"><a href="module-proofUtils.html">proofUtils</a><ul class='methods'><li data-type="method" id="proofUtils-checkNumNotes-nav"><a href="module-proofUtils.html#~checkNumNotes">checkNumNotes</a></li><li data-type="method" id="proofUtils-checkSignatureParams-nav"><a href="module-proofUtils.html#~checkSignatureParams">checkSignatureParams</a></li><li data-type="method" id="proofUtils-computeChallenge-nav"><a href="module-proofUtils.html#~computeChallenge">computeChallenge</a></li><li data-type="method" id="proofUtils-convertToBNAndAppendPoints-nav"><a href="module-proofUtils.html#~convertToBNAndAppendPoints">convertToBNAndAppendPoints</a></li><li data-type="method" id="proofUtils-convertTranscript-nav"><a href="module-proofUtils.html#~convertTranscript">convertTranscript</a></li><li data-type="method" id="proofUtils-generateBalancedNotes-nav"><a href="module-proofUtils.html#~generateBalancedNotes">generateBalancedNotes</a></li><li data-type="method" id="proofUtils-generateNoteValue-nav"><a href="module-proofUtils.html#~generateNoteValue">generateNoteValue</a></li><li data-type="method" id="proofUtils-getBlindingFactorsAndChallenge-nav"><a href="module-proofUtils.html#~getBlindingFactorsAndChallenge">getBlindingFactorsAndChallenge</a></li><li data-type="method" id="proofUtils-getBlindingFactorsAndChallenge-nav"><a href="module-proofUtils.html#~getBlindingFactorsAndChallenge">getBlindingFactorsAndChallenge</a></li><li data-type="method" id="proofUtils-getKPublic-nav"><a href="module-proofUtils.html#~getKPublic">getKPublic</a></li><li data-type="method" id="proofUtils-hexToGroupScalar-nav"><a href="module-proofUtils.html#~hexToGroupScalar">hexToGroupScalar</a></li><li data-type="method" id="proofUtils-hexToGroupScalar-nav"><a href="module-proofUtils.html#~hexToGroupScalar">hexToGroupScalar</a></li><li data-type="method" id="proofUtils-isOnCurve-nav"><a href="module-proofUtils.html#~isOnCurve">isOnCurve</a></li><li data-type="method" id="proofUtils-makeTestNotes-nav"><a href="module-proofUtils.html#~makeTestNotes">makeTestNotes</a></li><li data-type="method" id="proofUtils-parseInputs-nav"><a href="module-proofUtils.html#~parseInputs">parseInputs</a></li><li data-type="method" id="proofUtils-randomAddress-nav"><a href="module-proofUtils.html#~randomAddress">randomAddress</a></li></ul></li><li id="setup-nav"><a href="module-setup.html">setup</a><ul class='methods'><li data-type="method" id="setup-compress-nav"><a href="module-setup.html#~compress">compress</a></li><li data-type="method" id="setup-decompress-nav"><a href="module-setup.html#~decompress">decompress</a></li><li data-type="method" id="setup-fetchPoint-nav"><a href="module-setup.html#~fetchPoint">fetchPoint</a></li></ul></li><li id="signer-nav"><a href="module-signer.html">signer</a><ul class='methods'><li data-type="method" id="signer-generateACEDomainParams-nav"><a href="module-signer.html#~generateACEDomainParams">generateACEDomainParams</a></li><li data-type="method" id="signer-generateZKAssetDomainParams-nav"><a href="module-signer.html#~generateZKAssetDomainParams">generateZKAssetDomainParams</a></li><li data-type="method" id="signer-signNote-nav"><a href="module-signer.html#~signNote">signNote</a></li><li data-type="method" id="signer-signNoteACEDomain-nav"><a href="module-signer.html#~signNoteACEDomain">signNoteACEDomain</a></li><li data-type="method" id="signer-signTypedData-nav"><a href="module-signer.html#~signTypedData">signTypedData</a></li></ul></li><li id="utils-nav"><a href="note.module_utils.html">utils</a><ul class='methods'><li data-type="method" id="utils-createSharedSecret-nav"><a href="note.module_utils.html#~createSharedSecret">createSharedSecret</a></li><li data-type="method" id="utils-getNoteHash-nav"><a href="note.module_utils.html#~getNoteHash">getNoteHash</a></li><li data-type="method" id="utils-getSharedSecret-nav"><a href="note.module_utils.html#~getSharedSecret">getSharedSecret</a></li></ul></li></ul><h3 id="global-nav"><a href="global.html">Global</a></h3>
+  </nav>
+
+  <div id="main">
+    
+      <h1 class="page-title">
+        src/abiEncoder/outputCoder.js
+      </h1>
+    
+
+    
+      
+
+<section>
+  <article>
+    <pre class="prettyprint source linenums"><code>/**
+ * Output ABI encoding function
+ * @module outputCoder
+ */
+
+const secp256k1 = require('@aztec/secp256k1');
+const BN = require('bn.js');
+const { keccak256, padLeft } = require('web3-utils');
+
+const bn128 = require('../bn128');
+
+const outputCoder = {};
+
+/**
+ * Decode a note
+ *
+ * @method decodeNote
+ * @param {note} note - AZTEC note
+ * @returns {Object[]} note variables - extracted variables: noteType, owner,
+ * noteHash, gamma, sigma, ephemeral
+ */
+outputCoder.decodeNote = (note) => {
+    const length = parseInt(note.slice(0x00, 0x40), 16);
+    let expectedLength;
+    const noteType = parseInt(note.slice(0x40, 0x80), 16);
+    const owner = `0x${note.slice(0x98, 0xc0)}`;
+    const noteHash = `0x${note.slice(0xc0, 0x100)}`;
+    const metadataLength = parseInt(note.slice(0x100, 0x140), 16);
+    let ephemeral = null;
+    if (metadataLength === 0x61) {
+        ephemeral = secp256k1.decompressHex(note.slice(0x1c0, 0x202));
+        expectedLength = 0xe1;
+    } else {
+        expectedLength = 0xc0;
+    }
+
+    if (length !== expectedLength) {
+        throw new Error(`unexpected note length of ${length}`);
+    }
+
+    const gamma = bn128.decompressHex(note.slice(0x140, 0x180));
+    const sigma = bn128.decompressHex(note.slice(0x180, 0x1c0));
+
+    return {
+        noteType,
+        owner,
+        noteHash,
+        gamma,
+        sigma,
+        ephemeral,
+    };
+};
+
+/**
+ * Decode an array of notes
+ *
+ * @method decodeNotes
+ * @param {note} notes - array of AZTEC notes
+ * @returns {Object[]} array of note variables - array of decoded and extracted note variables
+ * where each element corresponds to the note variables for an individual note
+ */
+outputCoder.decodeNotes = (notes) => {
+    const n = parseInt(notes.slice(0x40, 0x80), 16);
+    return [...new Array(n)].map((x, i) => {
+        const noteOffset = parseInt(notes.slice(0x80 + i * 0x40, 0xc0 + i * 0x40), 16);
+        return outputCoder.decodeNote(notes.slice(noteOffset * 2));
+    });
+};
+
+/**
+ * Decode a bytes proofOutputs object into the constituent variables of each
+ * individual bytes proofOutput object
+ *
+ * @method decodeProofOutputs
+ * @param {string} proofOutputsHex - bytes proofOutputs string, containing multiple individual bytes
+ * proofOutput objects
+ * @returns {Object[]} array of decoded proofOutput objects - each element contains the
+ * publicValue and the challenge
+ */
+outputCoder.decodeProofOutputs = (proofOutputsHex) => {
+    const proofOutputs = proofOutputsHex.slice(2);
+    const numOutputs = parseInt(proofOutputs.slice(0x40, 0x80), 16);
+    const result = [...new Array(numOutputs)].map((x, i) => {
+        const outputOffset = parseInt(proofOutputs.slice(0x80 + i * 0x40, 0xc0 + i * 0x40), 16);
+        return outputCoder.decodeProofOutput(proofOutputs.slice(outputOffset * 2));
+    });
+
+    return result;
+};
+
+/**
+ * Decode a bytes proofOutput string into it's constitutent objects
+ *
+ * @method decodeProofOutput
+ * @param {proofOutput} proofOutput - bytes proofOutput string, outputted from a zero-knowledge proof
+ * @returns {Object[]} decoded constituent proofOutput objects - including inputNotes, outputNotes,
+ * publicOwner, publicValue and the challenge
+ */
+outputCoder.decodeProofOutput = (proofOutput) => {
+    const inputNotesOffset = parseInt(proofOutput.slice(0x40, 0x80), 16);
+    const outputNotesOffset = parseInt(proofOutput.slice(0x80, 0xc0), 16);
+    const publicOwner = `0x${proofOutput.slice(0xd8, 0x100)}`;
+    const publicValue = new BN(proofOutput.slice(0x100, 0x140), 16).fromTwos(256).toNumber();
+    const challenge = `0x${proofOutput.slice(0x140, 0x180)}`;
+    const inputNotes = outputCoder.decodeNotes(proofOutput.slice(inputNotesOffset * 2));
+    const outputNotes = outputCoder.decodeNotes(proofOutput.slice(outputNotesOffset * 2));
+
+    return {
+        inputNotes,
+        outputNotes,
+        publicOwner,
+        publicValue,
+        challenge,
+    };
+};
+
+/**
+ * Encode an input note, according to the ABI encoding specification
+ *
+ * @method encodeInputNote
+ * @param {note} note - AZTEC note
+ * @returns {string} ABI encoded representation of the notes array
+ */
+outputCoder.encodeInputNote = (note) => {
+    const encoded = [...new Array(6)];
+    encoded[0] = padLeft('c0', 64);
+    encoded[1] = padLeft('1', 64);
+    encoded[2] = padLeft(note.owner.slice(2), 64);
+    encoded[3] = padLeft(note.noteHash.slice(2), 64);
+    encoded[4] = padLeft('40', 64);
+    encoded[5] = padLeft(bn128.compress(note.gamma.x.fromRed(), note.gamma.y.fromRed()).toString(16), 64);
+    encoded[6] = padLeft(bn128.compress(note.sigma.x.fromRed(), note.sigma.y.fromRed()).toString(16), 64);
+    return encoded.join('');
+};
+
+/**
+ * Encode an array of notes according to the ABI specification. Able to encode both input and output
+ * notes
+ *
+ * @method encodeNotes
+ * @param {note[]} notes - array of AZTEC notes
+ * @param {boolean} isOutput - boolean describing whether the array of AZTEC notes are input or output notes
+ * @returns {string} ABI encoded representation of the notes array
+ */
+outputCoder.encodeNotes = (notes, isOutput) => {
+    let encodedNotes;
+    if (isOutput) {
+        encodedNotes = notes.map((note) => {
+            if (note.forceNoMetadata) {
+                return outputCoder.encodeInputNote(note, isOutput);
+            }
+            return outputCoder.encodeOutputNote(note, isOutput);
+        });
+    } else {
+        encodedNotes = notes.map((note) => {
+            if (note.forceMetadata) {
+                return outputCoder.encodeOutputNote(note, isOutput);
+            }
+            return outputCoder.encodeInputNote(note, isOutput);
+        });
+    }
+    const offsetToData = 0x40 + 0x20 * encodedNotes.length;
+    const noteLengths = encodedNotes.reduce(
+        (acc, p) => {
+            return [...acc, acc[acc.length - 1] + p.length / 2];
+        },
+        [offsetToData],
+    );
+
+    const encoded = [
+        padLeft((noteLengths.slice(-1)[0] - 0x20).toString(16), 64),
+        padLeft(notes.length.toString(16), 64),
+        ...noteLengths.slice(0, -1).map((n) => padLeft(n.toString(16), 64)),
+        ...encodedNotes,
+    ];
+    return encoded.join('');
+};
+
+/**
+ * Encode an output note, according to the ABI encoding specification
+ *
+ * @method encodeOutputNote
+ * @param {note} note - AZTEC note
+ * @returns {string} the various components of an AZTEC output note, encoded appropriately and concatenated
+ * together
+ */
+outputCoder.encodeOutputNote = (note) => {
+    const encoded = [...new Array(7)];
+    encoded[0] = padLeft('e1', 64);
+    encoded[1] = padLeft('1', 64);
+    encoded[2] = padLeft(note.owner.slice(2), 64);
+    encoded[3] = padLeft(note.noteHash.slice(2), 64);
+    encoded[4] = padLeft('61', 64);
+    encoded[5] = padLeft(bn128.compress(note.gamma.x.fromRed(), note.gamma.y.fromRed()).toString(16), 64);
+    encoded[6] = padLeft(bn128.compress(note.sigma.x.fromRed(), note.sigma.y.fromRed()).toString(16), 64);
+    encoded[7] = secp256k1.compress(note.ephemeral.getPublic()).slice(2);
+    return encoded.join('');
+};
+
+/**
+ * Encode a proofOutput object according to the ABI specification
+ *
+ * @method encodeProofOutput
+ * @param {note[]} inputNotes - array of notes to be input to a zero-knowledge proof
+ * @param {note[]} outputNotes - array of notes to be output from a zero-knowledge proof
+ * @param {address} publicOwner - Ethereum address of the account
+ * @param {Number} publicValue - quantity of public ERC20 tokens input to the zero-knowledge proof
+ * @param {string} challenge - cryptographic challenge variable, part of the sigma protocol
+ * @returns {string} ABI encoded representation of the proofOutput object
+ */
+outputCoder.encodeProofOutput = ({ inputNotes, outputNotes, publicOwner, publicValue, challenge }) => {
+    const encodedInputNotes = outputCoder.encodeNotes(inputNotes, false);
+    const encodedOutputNotes = outputCoder.encodeNotes(outputNotes, true);
+    let formattedValue;
+    if (publicValue &lt; 0) {
+        formattedValue = padLeft(new BN(publicValue).toTwos(256).toString(16), 64);
+    } else {
+        formattedValue = padLeft(publicValue.toString(16), 64);
+    }
+    const encoded = [...new Array(8)];
+    encoded[0] = padLeft((0xa0 + (encodedInputNotes.length + encodedOutputNotes.length) / 2).toString(16), 64);
+    encoded[1] = padLeft('c0', 64);
+    encoded[2] = padLeft((0xc0 + encodedInputNotes.length / 2).toString(16), 64);
+    encoded[3] = padLeft(publicOwner.slice(2), 64);
+    encoded[4] = formattedValue;
+    encoded[5] = padLeft(challenge.slice(2), 64);
+    encoded[6] = encodedInputNotes;
+    encoded[7] = encodedOutputNotes;
+    return encoded.join('');
+};
+
+/**
+ * Encode a proofOutputs object according to the ABI specification
+ *
+ * @method encodeProofOutputs
+ * @param {proofOutputs} proofOutputs - array of notes to be input to a zero-knowledge proof
+ * @returns {string} ABI encoded representation of the proofOutputs object
+ */
+outputCoder.encodeProofOutputs = (proofOutputs) => {
+    const encodedProofOutputs = proofOutputs.map((proofOutput) => outputCoder.encodeProofOutput(proofOutput));
+    const offsetToData = 0x40 + 0x20 * proofOutputs.length;
+    const proofLengths = encodedProofOutputs.reduce(
+        (acc, p) => {
+            return [...acc, acc[acc.length - 1] + p.length / 2];
+        },
+        [offsetToData],
+    );
+
+    const encoded = [
+        padLeft((proofLengths.slice(-1)[0] - 0x20).toString(16), 64),
+        padLeft(proofOutputs.length.toString(16), 64),
+        ...proofLengths.slice(0, -1).map((n) => padLeft(n.toString(16), 64)),
+        ...encodedProofOutputs,
+    ];
+    return `0x${encoded.join('')}`.toLowerCase();
+};
+
+/**
+ * Extract the the input notes from a proof output
+ *
+ * @method getInputNotes
+ * @param {string} proofOutput - the particular proofOutput the user wishes to select
+ * @returns (string) input notes extracted from proofOutput
+ */
+outputCoder.getInputNotes = (proofOutput) => {
+    const inputNotesOffset = 2 * parseInt(proofOutput.slice(0x40, 0x80), 16);
+    const length = 2 * parseInt(proofOutput.slice(inputNotesOffset, inputNotesOffset + 0x40), 16);
+    if (length > 0x0) {
+        const inputNotes = proofOutput.slice(inputNotesOffset, inputNotesOffset + 0x40 + length);
+        return inputNotes;
+    }
+    return padLeft('0x0', 64);
+};
+
+/**
+ * Extract the metadata from a notee
+ *
+ * @method getMetadata
+ * @param {string} notes - bytes note string
+ * @returns {strings} extracted bytes metadata
+ */
+outputCoder.getMetadata = (note) => {
+    let metadata = '';
+    const gamma = note.slice(0x140, 0x180);
+    metadata += gamma;
+    const sigma = note.slice(0x180, 0x1c0);
+    metadata += sigma;
+
+    const length = parseInt(note.slice(0x00, 0x40), 16);
+    let expectedLength;
+    const metadataLength = parseInt(note.slice(0x100, 0x140), 16);
+    let ephemeral = null;
+    if (metadataLength === 0x61) {
+        ephemeral = note.slice(0x1c0, 0x202);
+        metadata += ephemeral;
+        expectedLength = 0xe1;
+    } else {
+        expectedLength = 0xc0;
+    }
+
+    if (length !== expectedLength) {
+        throw new Error(`unexpected note length of ${length}`);
+    }
+
+    return metadata;
+};
+
+/**
+ * Extract the note from a bytes notes string
+ *
+ * @method getNote
+ * @param {string} notes - bytes notes string
+ * @param {Number} i - index to the particular note the user wishes to select
+ * @returns {string} bytes selected note string
+ */
+outputCoder.getNote = (notes, i) => {
+    const noteOffset = 2 * parseInt(notes.slice(0x80 + i * 0x40, 0xc0 + i * 0x40), 16);
+    const length = 2 * parseInt(notes.slice(noteOffset, noteOffset + 0x40), 16);
+    // Add 0x40 because the length itself has to be included
+    return notes.slice(noteOffset, noteOffset + 0x40 + length);
+};
+
+/**
+ * Extract the the input notes from a proof output
+ *
+ * @method getOutputNotes
+ * @param {string} proofOutput - the particular proofOutput the user wishes to select
+ * @returns (string) output notes extracted from proofOutput
+ */
+outputCoder.getOutputNotes = (proofOutput) => {
+    const outputNotesOffset = 2 * parseInt(proofOutput.slice(0x80, 0xc0), 16);
+    const length = 2 * parseInt(proofOutput.slice(outputNotesOffset, outputNotesOffset + 0x40), 16);
+    if (length > 0x0) {
+        const inputNotes = proofOutput.slice(outputNotesOffset, outputNotesOffset + 0x40 + length);
+        return inputNotes;
+    }
+    return padLeft('0x0', 64);
+};
+
+/**
+ * Decode a bytes proofOutputs object into the constituent variables of each
+ * individual bytes proofOutput object
+ *
+ * @method getProofOutput
+ * @param {string} proofOutputsHex - bytes proofOutputs string, containing multiple individual bytes
+ * proofOutput objects
+ * @param {Number} i - index to the particular proofOutput the user wishes to select
+ * @returns {string} selected proofOutput object extracted from proofOutputsHex
+ */
+outputCoder.getProofOutput = (proofOutputsHex, i) => {
+    const proofOutputs = proofOutputsHex.slice(2);
+    const offset = parseInt(proofOutputs.slice(0x40 + 0x40 * i, 0x80 + 0x40 * i), 16);
+    const length = parseInt(proofOutputs.slice(offset * 2 - 0x40, offset * 2), 16);
+    return proofOutputs.slice(offset * 2 - 0x40, offset * 2 + length * 2);
+};
+
+/**
+ * Decode a bytes proofOutputs object into the constituent variables of each
+ * individual bytes proofOutput object
+ *
+ * @method hashProofOutput
+ * @param {proofOutput} proofOutput - proofOutput object, contains transfer instructions
+ * @returns {string} keccak256 hash of the proofOutput
+ */
+outputCoder.hashProofOutput = (proofOutput) => {
+    return keccak256(`0x${proofOutput.slice(0x40)}`);
+};
+
+module.exports = outputCoder;
+</code></pre>
+  </article>
+</section>
+
+    
+
+
+  </div>
+
+  <br class="clear">
+
+  <footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.2</a>
+  </footer>
+
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/pagelocation.js"></script>
+
+  
+
+</body>
+</html>
