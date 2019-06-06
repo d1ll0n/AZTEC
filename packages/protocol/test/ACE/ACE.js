@@ -33,6 +33,8 @@ contract('ACE', (accounts) => {
             });
         });
 
+        // Check that the owner is multisig
+        // check that owner is multisig with timelock
         it('should set the owner', async () => {
             const owner = await ace.owner();
             expect(owner).to.equal(accounts[0]);
