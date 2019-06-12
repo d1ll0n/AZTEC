@@ -1,6 +1,9 @@
 /* eslint-disable no-restricted-syntax */
 const BN = require('bn.js');
 const VM = require('ethereumjs-vm');
+const Trie = require('merkle-patricia-tree');
+const StateManager = require('ethereumjs-vm/dist/stateManager');
+const { decode } = require('rlp');
 
 const newParser = require('./parser');
 const utils = require('./utils');
@@ -55,6 +58,14 @@ function encodeStack(stack) {
     }, '');
 }
 
+function encodeState(state) {
+    return state.reduce((bytecode, { slot, value }) => {
+        const word = getPushOp(value.toString(16));
+        const slotIndex = getPushOp(Number(slot).toString(16));
+        return bytecode + `${word}${slotIndex}${opcodes.sstore}`;
+    }, '');
+}
+
 function runCode(vm, bytecode, calldata, sourcemapOffset = 0, sourcemap = [], callvalue = 0) {
     return new Promise((resolve, reject) => {
         vm.runCode(
@@ -78,32 +89,46 @@ function runCode(vm, bytecode, calldata, sourcemapOffset = 0, sourcemap = [], ca
 
 function Runtime(filename, path, debug = false) {
     const { inputMap, macros, jumptables } = newParser.parseFile(filename, path);
-    return async function runMacro(macroName, stack = [], memory = [], calldata = null, callvalue = 0) {
+    return async function runMacro(
+        macroName,
+        { stack = [], memory = [], state = [], calldata = null, callvalue = 0, baseTrie = false },
+    ) {
         const memoryCode = encodeMemory(memory);
         const stackCode = encodeStack(stack);
-        const initCode = `${memoryCode}${stackCode}`;
-        const initGasEstimate = memory.length * 9 + stack.length * 3;
+        const stateCode = encodeState(state);
+        const initCode = `${memoryCode}${stackCode}${stateCode}`;
+        const initGasEstimate = memory.length * 9 + stack.length * 3 + state.length * 20006;
         const offset = initCode.length / 2;
         const {
             data: { bytecode: macroCode, sourcemap },
         } = newParser.processMacro(macroName, offset, [], macros, inputMap, jumptables); // prettier-ignore
         const bytecode = `${initCode}${macroCode}`;
-        const vm = new VM({ hardfork: 'constantinople' });
-        const results = await runCode(vm, bytecode, calldata, offset, sourcemap, callvalue);
-        const gasSpent = results.runState.gasLimit
-            .sub(results.runState.gasLeft)
-            .sub(new BN(initGasEstimate))
+        const vm = new VM({
+            hardfork: 'constantinople',
+            stateManager: state.length > 0 || baseTrie ? new StateManager({ trie: new Trie() }) : undefined,
+        });
+        const {
+            runState: { stack: outStack, memory: outMemory, returnValue, gasLimit, gasLeft, stateManager, address },
+        } = await runCode(vm, bytecode, calldata, offset, sourcemap, callvalue);
+        const gasSpent = gasLimit
+            .sub(gasLeft)
+            .subn(initGasEstimate)
             .toString(10);
         if (debug) {
             console.log('code size = ', macroCode.length / 2);
             console.log('gas consumed = ', gasSpent);
         }
+        const outState = await new Promise((resolve, reject) =>
+            stateManager.dumpStorage(address, (_state) => (typeof _state == Error ? reject : resolve)(_state)),
+        );
+        Object.keys(outState).map((k) => (outState[k] = decode(Buffer.from(outState[k], 'hex')).toString('hex')));
         return {
             gas: gasSpent,
-            stack: results.runState.stack,
-            memory: results.runState.memory,
-            returnValue: results.runState.returnValue,
+            stack: outStack,
+            memory: outMemory,
+            returnValue,
             bytecode: macroCode,
+            state: outState,
         };
     };
 }

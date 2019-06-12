@@ -168,13 +168,25 @@ const initialMemory = [
     { index: 0, value: new BN(1234134) },
     { index: 32, value: new BN(29384729832) },
 ];
-const inputStack = [new BN(1), new BN(6)]; // initial stack state expected by macro
+const initialStack = [new BN(1), new BN(6)]; // initial stack state expected by macro
+const initialState = [
+    // initial state expected by macro
+    { slot: 0, value: new BN(1337) },
+    { slot: 1, value: new BN(5000) },
+];
 const callvalue = 1; // amount of wei in transaction
-const { stack, memory, gas, bytecode, returnData } = await main('MACRO_NAME', initialStack, initialMemory, calldata, callvalue);
+const { stack, memory, gas, bytecode, returnData, state } = await main('MACRO_NAME', {
+    state: initialState,
+    stack: initialStack,
+    memory: initialMemory,
+    calldata,
+    callvalue,
+});
 
 console.log('gas cost when executing macro = ', gas);
 console.log('macro bytecode = ', bytecode);
 console.log('macro return data = ', returnData);
 console.log('output stack state = ', stack);
 console.log('output memory state = ', memory);
+console.log('output state = ', state);
 ```
