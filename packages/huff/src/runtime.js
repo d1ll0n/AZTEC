@@ -118,10 +118,18 @@ function Runtime(filename, path, debug = false) {
             console.log('code size = ', macroCode.length / 2);
             console.log('gas consumed = ', gasSpent);
         }
-        const outState = await new Promise((resolve, reject) =>
+        const _outState = await new Promise((resolve, reject) =>
             stateManager.dumpStorage(address, (_state) => (typeof _state == Error ? reject : resolve)(_state)),
         );
-        Object.keys(outState).map((k) => (outState[k] = decode(Buffer.from(outState[k], 'hex')).toString('hex')));
+        const outState = Object.keys(_outState).reduce((out, k) => {
+            return [
+                ...out,
+                {
+                    slot: parseInt(k, 16).toString(16),
+                    value: decode(Buffer.from(_outState[k], 'hex')).toString('hex'),
+                },
+            ];
+        }, []);
         return {
             gas: gasSpent,
             stack: outStack,
